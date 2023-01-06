@@ -11,10 +11,7 @@ const inputValue = document.querySelector('#search-box');
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
-// Назву країни для пошуку користувач вводить у текстове поле input#search-box.
-// HTTP-запити виконуються при введенні назви країни, тобто на події input.
-// Але робити запит з кожним натисканням клавіші не можна, оскільки одночасно буде багато запитів
-// і вони будуть виконуватися в непередбачуваному порядку.
+
 // Необхідно застосувати прийом Debounce на обробнику події і робити HTTP-запит через 300 мс після того,
 // як користувач перестав вводити текст. Використовуй пакет lodash.debounce.
 inputValue.addEventListener('input', debounce(onInputSearch, DEBOUNCE_DELAY));
@@ -28,8 +25,7 @@ function onInputSearch(event) {
     return;
   }
 
-  // Виконай санітизацію введеного рядка методом trim(), це вирішить проблему,
-  // коли в полі введення тільки пробіли, або вони є на початку і в кінці рядка.
+  
   return (
     fetchCountries(event.target.value.trim())
       .then(showCountry)
@@ -42,7 +38,7 @@ function onInputSearch(event) {
 function showCountry(countries) {
   // Якщо у відповіді бекенд повернув більше ніж 10 країн, в інтерфейсі з'являється повідомлення про те,
   // що назва повинна бути специфічнішою.
-  // Для повідомлень використовуй бібліотеку notiflix і виводь такий рядок "Too many matches found. Please enter a more specific name.".
+ 
   if (countries.length > 10) {
     emptyInput();
     Notiflix.Notify.info(
@@ -65,7 +61,7 @@ function showCountry(countries) {
   countryInfo.innerHTML = countryInfoMarkup(countries);
 }
 
-// Додай повідомлення "Oops, there is no country with that name" у разі помилки, використовуючи бібліотеку notiflix.
+
 function showError() {
   emptyInput();
   Notiflix.Notify.failure('Oops, there is no country with that name');
